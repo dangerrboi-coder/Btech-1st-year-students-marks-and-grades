@@ -1,0 +1,89 @@
+#include <stdio.h>
+
+#define NUM_STUDENTS 4
+#define NUM_SUBJECTS 4
+
+int main()
+{
+    char names[NUM_STUDENTS][50];
+    int marks[NUM_STUDENTS][NUM_SUBJECTS];
+    char grades[NUM_STUDENTS];
+    float averages[NUM_STUDENTS];
+
+    // Input student names and marks for each subject
+    for (int i = 0; i < NUM_STUDENTS; i++)
+    {
+        printf("Enter name of student %d: ", i + 1);
+        scanf("%s", names[i]);
+
+        printf("Subject 1 means Maths\n"
+               "Subject 2 means Physics\n"
+               "Subject 3 means Chemistry\n"
+               "Subject 4 means Computer Science\n");
+
+        int totalMarks = 0;
+        int failed = 0;
+
+        for (int j = 0; j < NUM_SUBJECTS; j++)
+        {
+            printf("Enter marks for %s in subject %d (0-100): ", names[i], j + 1);
+            scanf("%d", &marks[i][j]);
+
+            // Check for valid input
+            if (marks[i][j] < 0 || marks[i][j] > 100)
+            {
+                printf("Invalid marks! Please enter a value between 0 and 100.\n");
+                j--; // Decrement j to repeat for the same subject
+                continue;
+            }
+
+            totalMarks += marks[i][j];
+        }
+
+
+    
+        // Calculate average
+        averages[i] = totalMarks / (float)NUM_SUBJECTS;
+
+        // Assign grade based on average
+        if (averages[i] < 50)
+        {
+            grades[i] = 'F';
+        }
+        else if (averages[i] < 60)
+        {
+            grades[i] = 'E';
+        }
+        else if (averages[i] < 70)
+        {
+            grades[i] = 'D';
+        }
+        else if (averages[i] < 80)
+        {
+            grades[i] = 'C';
+        }
+        else if (averages[i] < 90)
+        {
+            grades[i] = 'B';
+        }
+        else
+        {
+            grades[i] = 'A';
+        }
+    }
+
+    // Display the results
+    printf("\nResults:\n");
+    printf("Student\t\tTotal Marks\tAverage\tGrade\n");
+    for (int i = 0; i < NUM_STUDENTS; i++)
+    {
+        int totalMarks = 0;
+        for (int j = 0; j < NUM_SUBJECTS; j++)
+        {
+            totalMarks += marks[i][j];
+        }
+        printf("%-15s\t%d\t\t%.2f\t%c\n", names[i], totalMarks, averages[i], grades[i]);
+    }
+
+    return 0;
+}
