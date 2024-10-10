@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100000 // Set number of students to 14 lakhs
+#define MAX_SCORE 300
+
+// Eligibility criteria based on marks
+#define MIN_SCORE_JEE_ADV_GENERAL 100.0 // General
+#define MIN_SCORE_JEE_ADV_OBC 90.0       // OBC
+#define MIN_SCORE_JEE_ADV_SC 75.0        // SC
+#define MIN_SCORE_JEE_ADV_ST 60.0        // ST
+
+double calculatePercentile(double scores[], int size, double score) {
+    int rank = 0;
+
+    // Calculate rank
+    for (int i = 0; i < size; i++) {
+        if (scores[i] < score) {
+            rank++;
+        }
+    }
+
+    // Calculate percentile
+    if (size == 0) {
+        return 0.0; // Avoid division by zero
+    } else {
+        return (rank / (double)size) * 100;
+    }
+}
+
+int main() {
+    double scores[MAX_STUDENTS]; // Array to hold scores of 1.4 million students
+    int size = MAX_STUDENTS; // Set size to 1.4 million
+    double scoreToEvaluate;
+    char name[50];
+    char category[10];
+
+    // Initialize scores for demonstration (random scores between 0 and 300)
+    for (int i = 0; i < size; i++) {
+        scores[i] = rand() % (MAX_SCORE + 1); // Random scores between 0 and 300
+    }
+
+    // Display exam title
+    printf("Welcome to the JEE Mains 2024 Percentile Calculator\n");
+
+    // Ask the user for their name
+    printf("Enter your name: ");
+    fgets(name, sizeof(name), stdin);  // Read user input
+
+    // Ask the user for their score
+    printf("Enter your score (out of %d): ", MAX_SCORE);
+    scanf("%lf", &scoreToEvaluate);
+
+    // Check if the score is within the valid range
+    if (scoreToEvaluate < 0 || scoreToEvaluate > MAX_SCORE) {
+        printf("Error: Score must be between 0 and %d.\n", MAX_SCORE);
+        return 1; // Exit with error
+    }
+
+    // Ask for the user's category
+    printf("Enter your category (General/OBC/SC/ST): ");
+    scanf("%s", category);
+
+    double percentile = calculatePercentile(scores, size, scoreToEvaluate);
+
+    printf("Name: %s", name);
+    printf("Score: %.2f\n", scoreToEvaluate);
+    printf("Percentile: %.2f%%\n", percentile);
+
+    // Check eligibility for JEE Advanced based on score thresholds
+    if (strcmp(category, "General") == 0 && scoreToEvaluate > MIN_SCORE_JEE_ADV_GENERAL) {
+        printf("Congratulations! You are eligible for JEE Advanced.\n");
+    } else if (strcmp(category, "OBC") == 0 && scoreToEvaluate > MIN_SCORE_JEE_ADV_OBC) {
+        printf("Congratulations! You are eligible for JEE Advanced.\n");
+    } else if (strcmp(category, "SC") == 0 && scoreToEvaluate > MIN_SCORE_JEE_ADV_SC) {
+        printf("Congratulations! You are eligible for JEE Advanced.\n");
+    } else if (strcmp(category, "ST") == 0 && scoreToEvaluate > MIN_SCORE_JEE_ADV_ST) {
+        printf("Congratulations! You are eligible for JEE Advanced.\n");
+    } else {
+        printf("Unfortunately, you are not eligible for JEE Advanced.\n");
+    }
+
+    return 0;
+}
